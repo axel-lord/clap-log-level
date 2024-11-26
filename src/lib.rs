@@ -9,6 +9,16 @@ use ::clap::{builder::PossibleValue, ValueEnum};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Level(pub ::log::Level);
 
+impl Default for Level{
+    fn default() -> Self {
+        Self(if cfg!(debug_assertions) {
+            ::log::Level::Trace
+        } else {
+            ::log::Level::Info
+        })
+    }
+}
+
 impl_value_enum!(Level(::log::Level), Trace, Debug, Info, Warn, Error);
 
 /// LevelFilter newtype.
